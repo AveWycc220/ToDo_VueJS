@@ -1,0 +1,10 @@
+{
+  "Основное": [
+    {"id":  56125215, "title":  "Купить Хлеб", "description":  "В Магните", "completed":  false},
+    {"id":  56125216, "title":  "Купить Масло", "description":  "В Пятерочке", "completed":  false},
+    {"id":  56125217, "title":  "Купить Картошку", "description":  "В Ленте", "completed":  false}
+  ],
+  "Учеба": [
+    {"id":  56125218, "title":  "Купить Тетради", "description":  "В Читай-Город", "completed":  false}
+  ]
+}
