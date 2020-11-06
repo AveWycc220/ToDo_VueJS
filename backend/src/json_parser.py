@@ -9,21 +9,21 @@ class JSONParser:
         """ Init method. """
         self.this_folder = os.path.dirname(os.path.abspath(__file__))
 
-    def get_json(self, name: str) -> str:
+    def get_json(self, name: str) -> dict:
         """
         Method for getting json file. Name must be like 'name.json'.
-        Return json: str.
+        Return json: dict.
         """
         if self.__is_exist(name):
             with open(f'{self.this_folder}\\..\\data\\{name}', 'r', encoding="utf-8") as f:
-                return f.read()
+                return json.loads(f.read())
         else:
             with open(f'{self.this_folder}\\..\\data\\{name}', 'w', encoding="utf-8") as f:
                 empty_json = {
                     "Основное": []
                 }
                 json.dump(empty_json, f, ensure_ascii=False, indent=2)
-                return str(empty_json)
+                return empty_json
 
     def update_json(self, name: str, new_json: dict) -> bool:
         """
