@@ -15,7 +15,7 @@ config = {
 def login(name):
     """ Method for getting json for todo"""
     response = make_response(jsonify(json_parser.get_json(name)))
-    response.set_cookie('name', name, secure=True, httponly=True, samesite='Strict')
+    response.set_cookie('name', name, secure=False, httponly=True, samesite='Strict')
     return response
 
 
