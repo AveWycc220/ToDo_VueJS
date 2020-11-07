@@ -1,3 +1,5 @@
 backend/__pycache__/
 backend/src/__pycache__/
 backend/.idea/
+frontend/node_modules/
+frontend/.idea/
