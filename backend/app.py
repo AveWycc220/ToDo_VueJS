@@ -1,17 +1,21 @@
 """ Module for Flask Application. """
 from flask import Flask, jsonify, request, make_response, abort
+from flask_cors import CORS
 from src.json_parser import JSONParser
 import os
 from dotenv import load_dotenv, find_dotenv
 
 app = Flask(__name__)
+CORS(app)
 json_parser = JSONParser()
 app.config['JSON_AS_ASCII'] = False
-config = {
-    'DEBUG': True,
-    'PORT': 8080,
-}
+
 load_dotenv(find_dotenv())
+
+config = {
+    'DEBUG': os.environ.get('DEBUG'),
+    'PORT': os.environ.get('PORT'),
+}
 
 
 @app.route('/login/<name>', methods=['GET'])
@@ -39,6 +43,7 @@ def update():
 
 
 def check_authorization():
+    """ Check for Authorization """
     if 'Authorization' in request.headers.keys():
         if request.headers['Authorization'] != 'Bearer ' + os.environ.get('TOKEN'):
             return abort(401, description='Wrong token')
