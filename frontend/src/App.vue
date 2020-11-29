@@ -1,17 +1,17 @@
 <template>
   <div id="app">
-    <Header />
+    <LogIn></LogIn>
   </div>
 </template>
 
 <script>
 
-import Header from "@/views/Header";
+import LogIn from "@/views/LogIn"
 
 export default {
   name: 'App',
   components: {
-    Header
+    LogIn
   }
 }
 </script>
