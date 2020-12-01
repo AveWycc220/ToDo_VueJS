@@ -1,15 +1,15 @@
 <template>
     <div class="form">
         <div class="key-input">
+            <p class="help-text" v-if="hasError"> {{ errorMessage }} </p>
             <div>
-                <form>
+                <form @submit.prevent="login">
                     <input type="text" id="key-input" name="key" placeholder="Key for your task list" maxlength="200"
                            v-model="key" :style="{ border: styleForInput }">
                 </form>
             </div>
             <div class="info">
                 <p class="help-text" v-if="checkForCharacters">These symbols are prohibited: &lt;, >, :, ", /, \, |, ?, *</p>
-                <br>
                 <p class="help-text" v-if="checkForLength">Key is too long (Must be less then 200 symbols)</p>
             </div>
         </div>
@@ -27,6 +27,7 @@
     data() {
       return {
         key: '',
+        errorMessage: '',
       }
     },
     methods: {
@@ -34,7 +35,14 @@
         if (!!this.key && !this.checkForCharacters && !this.checkForLength) {
           console.log(`Connect to http://${process.env.VUE_APP_SERVER_DOMAIN}:${process.env.VUE_APP_SERVER_PORT}`)
           Api.login(this.key).then((data) => {
-            console.log(data)
+            if (typeof data === 'object') {
+              this.errorMessage = ''
+              console.log(data)
+            } else if (typeof data === 'number') {
+              this.errorMessage = `Error, HTTP Status = ${data}`
+            } else if (typeof data === 'boolean') {
+              this.errorMessage = 'Server doesnt work | Wrong PORT or DOMAIN'
+            }
           })
         }
       }
@@ -56,8 +64,11 @@
       },
       disableButton () {
         return !(!!this.key && !this.checkForCharacters && !this.checkForLength)
+      },
+      hasError() {
+        return !!this.errorMessage
       }
-    }
+    },
   }
 </script>
 
@@ -82,6 +93,7 @@
 
     .help-text {
         margin-top: 1em;
+        margin-bottom: 1em;
         color: red;
         font-size: 11px;
         text-align: center;
