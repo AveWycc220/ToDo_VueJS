@@ -7,8 +7,8 @@
 
 <script>
 
-import LogInHeader from "@/components/LogInHeader"
-import LogInForm from "@/components/LogInForm"
+import LogInHeader from "@/components/LogIn/LogInHeader"
+import LogInForm from "@/components/LogIn/LogInForm"
 
   export default {
     name: "LogIn",
