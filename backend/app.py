@@ -6,7 +6,7 @@ import os
 from dotenv import load_dotenv, find_dotenv
 
 app = Flask(__name__)
-CORS(app)
+CORS(app, supports_credentials=True, methods=['GET', 'POST'])
 json_parser = JSONParser()
 app.config['JSON_AS_ASCII'] = False
 
@@ -22,6 +22,16 @@ config = {
 def login(name):
     """ Method for getting json for todo"""
     check_authorization()
+    response = make_response()
+    response.set_cookie('name', name, max_age=604800, secure=False, httponly=True, samesite='Strict')
+    response.set_cookie('auth', '1', max_age=604800)
+    return response
+
+
+@app.route('/get', methods=['GET'])
+def get():
+    check_authorization()
+    name = request.cookies.get('name')
     response = make_response(jsonify(json_parser.get_json(name)))
     response.set_cookie('name', name, max_age=604800, secure=False, httponly=True, samesite='Strict')
     response.set_cookie('auth', '1', max_age=604800)
