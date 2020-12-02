@@ -9,7 +9,7 @@
                 </form>
             </div>
             <div class="info">
-                <p class="help-text" v-if="checkForCharacters">These symbols are prohibited: &lt;, >, :, ", /, \, |, ?, *</p>
+                <p class="help-text" v-if="checkForCharacters">These symbols are prohibited: &lt;, >, :, ", /, \, |, ?, *, .</p>
                 <p class="help-text" v-if="checkForLength">Key is too long (Must be less then 200 symbols)</p>
             </div>
         </div>
@@ -33,15 +33,14 @@
     methods: {
       login() {
         if (!!this.key && !this.checkForCharacters && !this.checkForLength) {
-          console.log(`Connect to http://${process.env.VUE_APP_SERVER_DOMAIN}:${process.env.VUE_APP_SERVER_PORT}`)
-          Api.login(this.key).then((data) => {
-            if (typeof data === 'object') {
+          Api.getData({name:this.key}).then((data) => {
+            if (data === 200) {
               this.errorMessage = ''
               this.$router.push('/')
-            } else if (typeof data === 'number') {
-              this.errorMessage = `Error, HTTP Status = ${data}`
-            } else if (typeof data === 'boolean') {
+            } else if (data === false) {
               this.errorMessage = 'Server doesnt work | Wrong PORT or DOMAIN'
+            } else {
+              this.errorMessage = `Error, HTTP Status = ${data}`
             }
           })
         }
@@ -52,7 +51,7 @@
         return this.key && !this.checkForCharacters && !this.checkForLength ? '2px solid green' : '2px solid red'
       },
       checkForCharacters() {
-        let listCharacters = ['<', '>', ':', '/', '\\', '|', '?', '*']
+        let listCharacters = ['<', '>', ':', '/', '\\', '|', '?', '*', '.']
         let res = false
         for (let item of listCharacters) {
             res ||= !!~this.key.indexOf(`${item}`)
