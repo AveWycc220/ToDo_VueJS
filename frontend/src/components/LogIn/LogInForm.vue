@@ -37,7 +37,7 @@
           Api.login(this.key).then((data) => {
             if (typeof data === 'object') {
               this.errorMessage = ''
-              console.log(data)
+              this.$router.push('/')
             } else if (typeof data === 'number') {
               this.errorMessage = `Error, HTTP Status = ${data}`
             } else if (typeof data === 'boolean') {
