@@ -1,6 +1,6 @@
 <template>
     <header>
-        <img src="@/assets/todo-icon.png" alt="todo-icon" id="logo-icon">
+        <img src="@/assets/to-do-list.svg" alt="todo-icon" id="logo-icon">
         <span id="logo">ToDo List</span>
     </header>
 </template>
