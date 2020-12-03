@@ -1,31 +1,36 @@
 <template>
     <div class="main-page">
-        <MainHeader></MainHeader>
+        <Loading v-if="loading"></Loading>
+        <MainHeader v-else></MainHeader>
     </div>
 </template>
 
 <script>
 import MainHeader from "@/components/MainPage/MainHeader";
-import CookieUtils from "@/cookieUtils/cookieUtils";
 import Api from "@/api/Api";
+import Loading from "@/components/Loading";
 
   export default {
     name: "MainPage",
     components: {
-      MainHeader
+      MainHeader, Loading
     },
     data() {
       return {
-        itemList: undefined
+        itemList: undefined,
+        loading: true
       }
     },
-    beforeCreate() {
-      if (CookieUtils.getCookie('auth') === '1') {
-        Api.getData({login:false}).then((data) => { this.itemList = JSON.parse(JSON.stringify(data)) })
+    mounted() {
+      if (this.$cookie.get('auth') === '1') {
+        Api.getData({login:false}).then((data) => {
+          this.itemList = JSON.parse(JSON.stringify(data))
+          this.loading = false
+        })
       } else {
         this.$router.push('/login')
       }
-    },
+    }
   }
 </script>
 
